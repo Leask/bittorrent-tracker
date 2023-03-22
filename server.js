@@ -34,7 +34,7 @@ const hasOwnProperty = Object.prototype.hasOwnProperty
  * @param {function} opts.filter        black/whitelist fn for disallowing/allowing torrents
  */
 class Server extends EventEmitter {
-  constructor (opts = {}) {
+  constructor(opts = {}) {
     super()
     debug('new server %s', JSON.stringify(opts))
 
@@ -295,7 +295,7 @@ class Server extends EventEmitter {
     this.emit('error', err)
   }
 
-  listen (...args) /* port, hostname, onlistening */{
+  listen (...args) /* port, hostname, onlistening */ {
     if (this._listenCalled || this.listening) throw new Error('server already listening')
     this._listenCalled = true
 
@@ -330,19 +330,19 @@ class Server extends EventEmitter {
     if (this.udp4) {
       try {
         this.udp4.close()
-      } catch (err) {}
+      } catch (err) { }
     }
 
     if (this.udp6) {
       try {
         this.udp6.close()
-      } catch (err) {}
+      } catch (err) { }
     }
 
     if (this.ws) {
       try {
         this.ws.close()
-      } catch (err) {}
+      } catch (err) { }
     }
 
     if (this.http) this.http.close(cb)
@@ -692,7 +692,17 @@ class Server extends EventEmitter {
         } // else, return full peer objects (used for websocket responses)
 
         cb(null, response)
+        self.free();
       })
+    }
+  }
+
+  free () {
+    for (let i in this.torrents) {
+      if (!this.torrents[i].shouldRelease()) { continue; }
+      const toFree = this.torrents[i];
+      delete this.torrents[i];
+      toFree?.free?.();
     }
   }
 
@@ -804,6 +814,6 @@ function toNumber (x) {
   return x >= 0 ? x : false
 }
 
-function noop () {}
+function noop () { }
 
 export default Server
