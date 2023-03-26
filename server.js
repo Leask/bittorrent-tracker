@@ -3,6 +3,7 @@ import Debug from 'debug'
 import dgram from 'dgram'
 import EventEmitter from 'events'
 import http from 'http'
+import https from 'https'
 import peerid from 'bittorrent-peerid'
 import series from 'run-series'
 import string2compact from 'string2compact'
@@ -140,7 +141,7 @@ class Server extends EventEmitter {
 
     if (opts.stats !== false) {
       if (!this.http) {
-        this.http = http.createServer()
+        this.http = (opts.ssl ? https : http).createServer(opts.ssl)
         this.http.on('error', err => { this._onError(err) })
         this.http.on('listening', onListening)
       }
@@ -307,7 +308,7 @@ class Server extends EventEmitter {
 
     debug('listen (port: %o hostname: %o)', port, hostname)
 
-    const httpPort = isObject(port) ? (port.http || 0) : port
+    const httpPort = (isObject(port) ? (port.http || 0) : port)
     const udpPort = isObject(port) ? (port.udp || 0) : port
 
     // binding to :: only receives IPv4 connections if the bindv6only sysctl is set 0,
