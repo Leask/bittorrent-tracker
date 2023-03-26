@@ -61,7 +61,9 @@ class Server extends EventEmitter {
 
     // start an http tracker unless the user explictly says no
     if (opts.http !== false) {
-      this.http = http.createServer(isObject(opts.http) ? opts.http : undefined)
+      this.http = (opts.ssl ? https : http).createServer(
+        { ...isObject(opts.http) ? opts.http : {}, ...opts.ssl || {} }
+      )
       this.http.on('error', err => { this._onError(err) })
       this.http.on('listening', onListening)
 
@@ -141,7 +143,8 @@ class Server extends EventEmitter {
 
     if (opts.stats !== false) {
       if (!this.http) {
-        this.http = (opts.ssl ? https : http).createServer(opts.ssl)
+        console.log(opts);
+        this.http = http.createServer()
         this.http.on('error', err => { this._onError(err) })
         this.http.on('listening', onListening)
       }
