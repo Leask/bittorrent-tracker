@@ -210,7 +210,7 @@ class Server extends EventEmitter {
         if (req.method === 'GET' && (req.url === '/stats' || req.url === '/stats.json')) {
           infoHashes.forEach(infoHash => {
             const peers = this.torrents[infoHash].peers
-            const keys = peers.keys
+            const keys = peers.keys || []
             if (keys.length > 0) activeTorrents++
 
             keys.forEach(peerId => {
