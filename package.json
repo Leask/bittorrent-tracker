@@ -28,7 +28,7 @@
   "type": "module",
   "dependencies": {
     "@thaunknown/simple-peer": "^9.12.1",
-    "@thaunknown/simple-websocket": "^9.1.0",
+    "@thaunknown/simple-websocket": "^9.1.1",
     "bencode": "^3.0.3",
     "bittorrent-peerid": "^1.3.6",
     "chrome-dgram": "^3.0.6",
@@ -54,11 +54,11 @@
     "@mapbox/node-pre-gyp": "1.0.10",
     "@webtorrent/semantic-release-config": "1.0.9",
     "magnet-uri": "7.0.5",
-    "mysql2": "^3.2.0",
-    "semantic-release": "21.0.5",
+    "mysql2": "^3.4.2",
+    "semantic-release": "21.0.6",
     "standard": "*",
     "tape": "5.6.3",
-    "utilitas": "^1992.4.7",
+    "utilitas": "^1995.0.4",
     "webtorrent-fixtures": "2.0.2",
     "wrtc": "0.4.7"
   },
